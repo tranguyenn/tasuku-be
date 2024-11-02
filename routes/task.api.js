@@ -1,5 +1,6 @@
 const express = require("express");
 const { getTaskById, getTaskByBoardId, createTask, addReference, updateTask, deleteTaskById } = require("../controllers/task.controller");
+const authentication = require("../middlewares/authentication");
 const router = express.Router();
 //done
 /**
@@ -7,7 +8,7 @@ const router = express.Router();
  * @description Get task by id done
  * @access public
  */
-router.get("/:id", getTaskById);
+router.get("/:id",authentication.loginRequired, getTaskById);
 
 //done
 /**
@@ -16,7 +17,7 @@ router.get("/:id", getTaskById);
  * @access public
  * @query : name,status,createAt,updateAt 
  */
-router.get("/:id/board", getTaskByBoardId);
+router.get("/:id/board",authentication.loginRequired, getTaskByBoardId);
 
 //done
 /**
@@ -25,7 +26,7 @@ router.get("/:id/board", getTaskByBoardId);
  * @access private, manager
  * @requiredBody: name,description
  */
-router.post("/", createTask);
+router.post("/",authentication.loginRequired, createTask);
 
 //done
 /**
@@ -34,7 +35,7 @@ router.post("/", createTask);
  * @access private manager
  * @requires: taskId,empId
  */
-router.put("/assignee", addReference);
+router.put("/assignee",authentication.loginRequired, addReference);
 
 //done
 /**
@@ -42,7 +43,7 @@ router.put("/assignee", addReference);
  * @description update status/description to a task done
  * @access private manager
  */
-router.put("/:id",updateTask);
+router.put("/:id",authentication.loginRequired,updateTask);
 
 //done
 //Delete
@@ -51,7 +52,7 @@ router.put("/:id",updateTask);
  * @description delete a task done
  * @access manager
  */
-router.delete("/:id", deleteTaskById);
+router.delete("/:id",authentication.loginRequired, deleteTaskById);
 //export
 module.exports = router;
 //Update

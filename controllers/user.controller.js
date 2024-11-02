@@ -144,12 +144,22 @@ userController.getUserBoard = async (req, res, next) => {
         next(err)
     }
    
+};
+userController.getCurrentUser = async (req, res, next) => {
 
+  const currentUserId = req.user; // Assumes req.userId is set by previous middleware
+
+  const user = await User.findById(currentUserId);
+  if (!user) {
+    throw new AppError(400, "User not found", "Get Current User Error");
+  }
+
+  return sendResponse(res, 200, true, user, null, "Get Current User successful");
 };
 userController.register = async (req, res, next) => {
   try {
     // Get data from request
-    const { name, email, password } = req.body;
+    const { name,avatar, email, password, role } = req.body;
 
     // Business Logic Validation
     let user = await User.findOne({ email });
@@ -161,7 +171,7 @@ userController.register = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     
-    user = await User.create({ name, email, password: hashedPassword });
+    user = await User.create({ name, avatar, email, role, password: hashedPassword });
     const accessToken= await user.generateToken();
     // Response
     sendResponse(res, 200, true, { user, accessToken }, null, "Create User successful");

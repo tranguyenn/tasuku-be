@@ -1,5 +1,6 @@
 const express = require("express");
 const { getBoardById, createBoard, addMemberToBoard } = require("../controllers/board.controller");
+const authentication = require("../middlewares/authentication");
 const router = express.Router();
 
 /**
@@ -8,7 +9,7 @@ const router = express.Router();
  * @access public
  * @query : name,status,createAt,updateAt
  */
-router.get("/:id",getBoardById);
+router.get("/:id",authentication.loginRequired,getBoardById);
 
 /**
  * @route POST api/boards
@@ -16,7 +17,7 @@ router.get("/:id",getBoardById);
  * @access private, manager
  * @requiredBody: name,description
  */
-router.post("/", createBoard);
+router.post("/",authentication.loginRequired, createBoard);
 
 /**
  * @route PUT api/boards/assignee
@@ -24,7 +25,7 @@ router.post("/", createBoard);
  * @access private manager
  * @requires: taskId,empId
  */
-router.put("/assignee", addMemberToBoard);
+router.put("/assignee",authentication.loginRequired, addMemberToBoard);
 
 //export
 module.exports = router;

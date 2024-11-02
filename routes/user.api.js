@@ -1,5 +1,6 @@
 const express= require("express")
-const { getUserByEmail, getUserById, getUserTask, getUserBoard, createUser, register, loginWithEmail } = require("../controllers/user.controller")
+const { getUserByEmail, getUserById, getUserTask, getUserBoard, createUser, register, loginWithEmail, getCurrentUser } = require("../controllers/user.controller")
+const authentication = require("../middlewares/authentication")
 const router = express.Router()
 
 //done
@@ -9,7 +10,15 @@ const router = express.Router()
  * @access private
  * @allowedQueries: email
  */
-router.get("/search",getUserByEmail)
+router.get("/search",authentication.loginRequired,getUserByEmail)
+//done
+/**
+ * @route GET api/users/search
+ * @description Get a list of users
+ * @access private
+ * @allowedQueries: email
+ */
+router.get("/me",authentication.loginRequired,getCurrentUser)
 
 
 /**
@@ -17,7 +26,7 @@ router.get("/search",getUserByEmail)
  * @description Get user by id
  * @access public
  */
-router.get("/:id",getUserById)
+router.get("/:id",authentication.loginRequired,getUserById)
 
 
 
@@ -26,14 +35,14 @@ router.get("/:id",getUserById)
  * @description Get all task by userId
  * @access public
  */
-router.get("/:id/tasks",getUserTask)
+router.get("/:id/tasks",authentication.loginRequired,getUserTask)
 
 /**
  * @route GET api/users/:id/boards
  * @description Get all boards by userId
  * @access public
  */
-router.get("/:id/boards",getUserBoard)
+router.get("/:id/boards",authentication.loginRequired,getUserBoard)
 
 
 /**
