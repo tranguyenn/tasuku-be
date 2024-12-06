@@ -43,11 +43,18 @@ userController.getUserById = async (req, res, next) => {
     const { id } = req.params;
     if (!id) throw new AppError(402, "Bad Request", "Missing id Error");
     const userFound = await User.findById(id);
+    const resultUser={
+      _id:userFound._id,
+      name:userFound.name,
+      email:userFound.email,
+      avatar:userFound.avatar,
+      role:userFound.role
+    }
     sendResponse(
       res,
       200,
       true,
-      { data: userFound },
+      { data: resultUser },
       null,
       "Find user Success"
     );
@@ -61,11 +68,18 @@ userController.getUserByEmail = async (req, res, next) => {
     const { name } = req.query;
     if (!name) throw new AppError(402, "Bad Request", "Missing name Error");
     const userFound = await User.find({ email: name });
+    const resultUser={
+      _id:userFound._id,
+      name:userFound.name,
+      email:userFound.email,
+      avatar:userFound.avatar,
+      role:userFound.role
+    }
     sendResponse(
       res,
       200,
       true,
-      { data: userFound },
+      { data: resultUser },
       null,
       "Find user by name Success"
     );
@@ -82,11 +96,18 @@ userController.getUserByFilter = async (req, res, next) => {
         if (name) filter = { name: { $regex: ".*" + name + ".*" } };
         console.log(name)
         const usersFound = await User.find(filter);
+        const resultUser={
+          _id:userFound._id,
+          name:userFound.name,
+          email:userFound.email,
+          avatar:userFound.avatar,
+          role:userFound.role
+        }
         sendResponse(
           res,
           200,
           true,
-          { data: usersFound },
+          { data: resultUser },
           null,
           "Find user by filter Success"
         );
@@ -131,7 +152,7 @@ userController.getUserBoard = async (req, res, next) => {
     }
   
     // console.log(userFound._id)
-    const userBoard = await Board.find({ users: userFound._id }).populate('users');
+    const userBoard = await Board.find({ users: userFound._id }).sort({ created_at: -1 }).populate('users');
     sendResponse(
         res,
         200,
@@ -187,6 +208,13 @@ userController.loginWithEmail = async (req, res, next) => {
 
     // Business Logic Validation
     const user = await User.findOne({ email }).select("+password");
+    const resultUser={
+      _id:user._id,
+      name:user.name,
+      email:user.email,
+      avatar:user.avatar,
+      role:user.role
+    }
     if (!user) throw new AppError(400, "Invalid Credentials", "Login Error");
 
     // Process
@@ -196,7 +224,7 @@ userController.loginWithEmail = async (req, res, next) => {
     const accessToken = await user.generateToken();
 
     // Response
-    sendResponse(res, 200, true, { user, accessToken }, null, "Login successful");
+    sendResponse(res, 200, true, { resultUser, accessToken }, null, "Login successful");
   } catch (error) {
     next(error); // Pass error to error-handling middleware
   }

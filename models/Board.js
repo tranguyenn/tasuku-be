@@ -9,7 +9,7 @@ const boardSchema = mongoose.Schema(
       type:Boolean,
       default: false
     },
-
+    position: { type: Number, default: 0 },
     users: [{ type: mongoose.SchemaTypes.ObjectId, ref: "User" }], //many to many
     creator: { type: mongoose.SchemaTypes.ObjectId, ref: "User" }, //many to many
   },

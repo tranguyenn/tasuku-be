@@ -10,7 +10,7 @@ const boardController = {};
 boardController.createBoard = async (req, res, next) => {
   //in real project you will getting info from req
   try {
-  const { name, description,cover } = req.body;
+  const { name, description,cover, creator } = req.body;
   if(!name||!description){
     throw new AppError(400, "Bad Request", "Create Task Error Lacking Name or Des")
   }
@@ -18,16 +18,19 @@ boardController.createBoard = async (req, res, next) => {
   const info = {
     name: name,
     description: description,
-    cover: cover
+    cover: cover,
+    creator: creator,
+    users:[creator]
   };
-    const created = await Task.create(info);
+  console.log(info);
+    const created = await Board.create(info);
     sendResponse(
       res,
       200,
       true,
       { data: created },
       null,
-      "Create task Success"
+      "Create board Success"
     );
   } catch (err) {
     next(err);

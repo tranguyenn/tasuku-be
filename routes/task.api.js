@@ -6,7 +6,7 @@ const router = express.Router();
 /**
  * @route GET api/tasks/:id
  * @description Get task by id done
- * @access public
+ * @access login required 
  */
 router.get("/:id",authentication.loginRequired, getTaskById);
 
@@ -14,7 +14,7 @@ router.get("/:id",authentication.loginRequired, getTaskById);
 /**
  * @route GET api/tasks
  * @description Get all task by board
- * @access public
+ * @access login required 
  * @query : name,status,createAt,updateAt 
  */
 router.get("/:id/board",authentication.loginRequired, getTaskByBoardId);
@@ -23,7 +23,7 @@ router.get("/:id/board",authentication.loginRequired, getTaskByBoardId);
 /**
  * @route POST api/tasks
  * @description Create a task
- * @access private, manager
+ * @access login required
  * @requiredBody: name,description
  */
 router.post("/",authentication.loginRequired, createTask);
@@ -32,7 +32,7 @@ router.post("/",authentication.loginRequired, createTask);
 /**
  * @route PUT api/tasks/assignee
  * @description update assignee to a task
- * @access private manager
+ * @access login required
  * @requires: taskId,empId
  */
 router.put("/assignee",authentication.loginRequired, addReference);
@@ -41,7 +41,7 @@ router.put("/assignee",authentication.loginRequired, addReference);
 /**
  * @route PUT api/tasks/detail
  * @description update status/description to a task done
- * @access private manager
+ * @access login required
  */
 router.put("/:id",authentication.loginRequired,updateTask);
 
@@ -50,7 +50,7 @@ router.put("/:id",authentication.loginRequired,updateTask);
 /**
  * @route DELETE api/tasks
  * @description delete a task done
- * @access manager
+ * @access login required
  */
 router.delete("/:id",authentication.loginRequired, deleteTaskById);
 //export

@@ -15,7 +15,7 @@ router.get("/search",authentication.loginRequired,getUserByEmail)
 /**
  * @route GET api/users/search
  * @description Get a list of users
- * @access private
+ * @access login required
  * @allowedQueries: email
  */
 router.get("/me",authentication.loginRequired,getCurrentUser)
@@ -33,14 +33,14 @@ router.get("/:id",authentication.loginRequired,getUserById)
 /**
  * @route GET api/users/:id/tasks
  * @description Get all task by userId
- * @access public
+ * @access login required
  */
 router.get("/:id/tasks",authentication.loginRequired,getUserTask)
 
 /**
  * @route GET api/users/:id/boards
  * @description Get all boards by userId
- * @access public
+ * @access required
  */
 router.get("/:id/boards",authentication.loginRequired,getUserBoard)
 
@@ -55,7 +55,7 @@ router.get("/:id/boards",authentication.loginRequired,getUserBoard)
 /**
  * @route POST api/users
  * @description Create a new user register
- * @access private, manager, employee
+ * @access public
  * @requiredBody: name 
  */
 router.post("/",register)
@@ -63,8 +63,6 @@ router.post("/",register)
 /**
  * @route POST api/users
  * @description Login
- * @access private manager, employee
- * @requiredBody: name 
  */
  router.post("/login",loginWithEmail)
 
