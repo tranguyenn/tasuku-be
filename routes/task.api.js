@@ -46,7 +46,7 @@ router.put("/assignee",validators.validate(validateAddReference),authentication.
  * @description update status/description to a task done
  * @access login required
  */
-router.put("/:id",validators.validate([validateId.validateParam,validateUpdateTask]),authentication.loginRequired,updateTask);
+router.put("/:id",validators.validate(validateUpdateTask),validators.validate(validateId.validateParam),authentication.loginRequired,updateTask);
 
 //done
 //Delete

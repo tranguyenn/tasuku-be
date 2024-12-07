@@ -6,6 +6,7 @@ const Board = require("../models/Board.js");
 const bcrypt = require('bcrypt');
 
 const userController = {};
+
 //create
 userController.createUser = async (req, res, next) => {
   //in real project you will getting info from req
@@ -37,6 +38,7 @@ userController.createUser = async (req, res, next) => {
     next(err);
   }
 };
+
 //get by id
 userController.getUserById = async (req, res, next) => {
   try {
@@ -62,6 +64,7 @@ userController.getUserById = async (req, res, next) => {
     next(err);
   }
 };
+
 //get user by email
 userController.getUserByEmail = async (req, res, next) => {
   try {
@@ -116,6 +119,7 @@ userController.getUserByFilter = async (req, res, next) => {
     }
  
 };
+
 //get user task
 userController.getUserTask = async (req, res, next) => {
     try {
@@ -166,6 +170,7 @@ userController.getUserBoard = async (req, res, next) => {
     }
    
 };
+
 userController.getCurrentUser = async (req, res, next) => {
 
   const currentUserId = req.user; // Assumes req.userId is set by previous middleware
@@ -177,6 +182,7 @@ userController.getCurrentUser = async (req, res, next) => {
 
   return sendResponse(res, 200, true, user, null, "Get Current User successful");
 };
+
 userController.register = async (req, res, next) => {
   try {
     // Get data from request

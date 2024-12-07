@@ -1,5 +1,5 @@
 const { body } = require("express-validator");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const statusEnum = ["pending", "doing", "review", "done"];
 // Validation for task creation
@@ -13,7 +13,7 @@ const validateTask = [
     .withMessage("name cannot be empty"),
   body("description")
     .exists()
-    .withMessage("description is required") 
+    .withMessage("description is required")
     .isString()
     .withMessage("Description must be a valid string"),
   body("status")
@@ -58,6 +58,7 @@ const validateUpdateTask = [
     .withMessage("Cover must be a string if provided")
     .isURL()
     .withMessage("Invalid cover url format"),
+
 ];
 
 const validateAddReference = [
@@ -77,5 +78,5 @@ const validateAddReference = [
 module.exports = {
   validateTask,
   validateUpdateTask,
-  validateAddReference
+  validateAddReference,
 };

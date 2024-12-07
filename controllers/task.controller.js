@@ -6,6 +6,7 @@ const Task = require("../models/Task.js");
 const User = require("../models/User.js");
 
 const taskController = {};
+
 //Create a task
 taskController.createTask = async (req, res, next) => {
   //in real project you will getting info from req
@@ -139,10 +140,6 @@ taskController.getTaskByBoardId = async (req, res, next) => {
       throw new AppError(404, "Bad Request", "Invalid board id");
     }
     const taskAvailable = await Task.find({board: id, isDeleted: false });
-   
-
-    
-    
     console.log("task",taskAvailable);
     result = castAllTaskBoard(taskAvailable);
     sendResponse(res, 200, true, { result }, null, "Find task Success");

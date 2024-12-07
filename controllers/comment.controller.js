@@ -6,6 +6,7 @@ const User = require("../models/User.js");
 const Comment = require("../models/Comment.js");
 
 const commentController = {};
+
 //Create a task
 commentController.createComment = async (req, res, next) => {
   //in real project you will getting info from req
@@ -33,8 +34,6 @@ commentController.createComment = async (req, res, next) => {
   }
 };
 
-
-
 //get by id
 commentController.getCommentByTaskId = async (req, res, next) => {
     try {
@@ -53,6 +52,7 @@ commentController.getCommentByTaskId = async (req, res, next) => {
       next(err);
     }
 };
+
 //Delete task
 commentController.deleteCommentById = async (req, res, next) => {
     //in real project you will getting id from req. For updating and deleting, it is recommended for you to use unique identifier such as _id to avoid duplication
