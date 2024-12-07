@@ -1,6 +1,8 @@
 const express = require("express");
 const { createComment, getCommentByTaskId, deleteCommentById } = require("../controllers/comment.controller");
 const authentication = require("../middlewares/authentication");
+const validators = require("../middlewares/validators");
+const validateId = require("../middlewares/validateId");
 const router = express.Router();
 
 /**
@@ -8,7 +10,7 @@ const router = express.Router();
  * @description Get comment by task id
  * @access public
  */
-router.get("/:id/task",authentication.loginRequired,getCommentByTaskId);
+router.get("/:id/task",validators.validate(validateId),authentication.loginRequired,getCommentByTaskId);
 
 /**
  * @route POST api/comments

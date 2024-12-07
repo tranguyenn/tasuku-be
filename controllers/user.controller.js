@@ -205,26 +205,26 @@ userController.loginWithEmail = async (req, res, next) => {
   try {
     // Get data from request
     const { email, password } = req.body;
-
+    console.log("check email ", req.body);
     // Business Logic Validation
-    const user = await User.findOne({ email }).select("+password");
-    const resultUser={
-      _id:user._id,
-      name:user.name,
-      email:user.email,
-      avatar:user.avatar,
-      role:user.role
-    }
-    if (!user) throw new AppError(400, "Invalid Credentials", "Login Error");
+    const resultUser = await User.findOne({ email }).select("+password");
+   
+    if (!resultUser) throw new AppError(400, "Invalid Credentials", "Login Error");
 
     // Process
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, resultUser.password);
     if (!isMatch) throw new AppError(400, "Wrong password", "Login Error");
 
-    const accessToken = await user.generateToken();
-
+    const accessToken = await resultUser.generateToken();
+    const user={
+      _id:resultUser._id,
+      name:resultUser.name,
+      email:resultUser.email,
+      avatar:resultUser.avatar,
+      role:resultUser.role
+    }
     // Response
-    sendResponse(res, 200, true, { resultUser, accessToken }, null, "Login successful");
+    sendResponse(res, 200, true, { user, accessToken }, null, "Login successful");
   } catch (error) {
     next(error); // Pass error to error-handling middleware
   }

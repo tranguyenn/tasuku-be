@@ -1,6 +1,9 @@
 const express = require("express");
 const { getTaskById, getTaskByBoardId, createTask, addReference, updateTask, deleteTaskById } = require("../controllers/task.controller");
 const authentication = require("../middlewares/authentication");
+const validators = require("../middlewares/validators");
+const validateId = require("../middlewares/validateId");
+const { validateUpdateTask, validateAddReference, validateTask } = require("../middlewares/validateTask");
 const router = express.Router();
 //done
 /**
@@ -8,7 +11,7 @@ const router = express.Router();
  * @description Get task by id done
  * @access login required 
  */
-router.get("/:id",authentication.loginRequired, getTaskById);
+router.get("/:id",validators.validate(validateId),authentication.loginRequired, getTaskById);
 
 //done
 /**
@@ -17,7 +20,7 @@ router.get("/:id",authentication.loginRequired, getTaskById);
  * @access login required 
  * @query : name,status,createAt,updateAt 
  */
-router.get("/:id/board",authentication.loginRequired, getTaskByBoardId);
+router.get("/:id/board",validators.validate(validateId),authentication.loginRequired, getTaskByBoardId);
 
 //done
 /**
@@ -26,7 +29,7 @@ router.get("/:id/board",authentication.loginRequired, getTaskByBoardId);
  * @access login required
  * @requiredBody: name,description
  */
-router.post("/",authentication.loginRequired, createTask);
+router.post("/",validators.validate(validateTask),authentication.loginRequired, createTask);
 
 //done
 /**
@@ -35,7 +38,7 @@ router.post("/",authentication.loginRequired, createTask);
  * @access login required
  * @requires: taskId,empId
  */
-router.put("/assignee",authentication.loginRequired, addReference);
+router.put("/assignee",validators.validate(validateAddReference),authentication.loginRequired, addReference);
 
 //done
 /**
@@ -43,7 +46,7 @@ router.put("/assignee",authentication.loginRequired, addReference);
  * @description update status/description to a task done
  * @access login required
  */
-router.put("/:id",authentication.loginRequired,updateTask);
+router.put("/:id",validators.validate([validateId,validateUpdateTask]),authentication.loginRequired,updateTask);
 
 //done
 //Delete
@@ -52,7 +55,7 @@ router.put("/:id",authentication.loginRequired,updateTask);
  * @description delete a task done
  * @access login required
  */
-router.delete("/:id",authentication.loginRequired, deleteTaskById);
+router.delete("/:id",validators.validate(validateId),authentication.loginRequired, deleteTaskById);
 //export
 module.exports = router;
 //Update

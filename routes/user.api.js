@@ -1,6 +1,9 @@
 const express= require("express")
 const { getUserByEmail, getUserById, getUserTask, getUserBoard, createUser, register, loginWithEmail, getCurrentUser } = require("../controllers/user.controller")
 const authentication = require("../middlewares/authentication")
+const validators = require("../middlewares/validators")
+const validateId = require("../middlewares/validateId")
+const { validateGetByEmail, validateUser, validateLogin } = require("../middlewares/validateUser")
 const router = express.Router()
 
 //done
@@ -10,7 +13,7 @@ const router = express.Router()
  * @access private
  * @allowedQueries: email
  */
-router.get("/search",authentication.loginRequired,getUserByEmail)
+router.get("/search",validators.validate(validateGetByEmail),authentication.loginRequired,getUserByEmail)
 //done
 /**
  * @route GET api/users/search
@@ -26,7 +29,7 @@ router.get("/me",authentication.loginRequired,getCurrentUser)
  * @description Get user by id
  * @access public
  */
-router.get("/:id",authentication.loginRequired,getUserById)
+router.get("/:id",validators.validate(validateId),authentication.loginRequired,getUserById)
 
 
 
@@ -35,14 +38,14 @@ router.get("/:id",authentication.loginRequired,getUserById)
  * @description Get all task by userId
  * @access login required
  */
-router.get("/:id/tasks",authentication.loginRequired,getUserTask)
+router.get("/:id/tasks",validators.validate(validateId),authentication.loginRequired,getUserTask)
 
 /**
  * @route GET api/users/:id/boards
  * @description Get all boards by userId
  * @access required
  */
-router.get("/:id/boards",authentication.loginRequired,getUserBoard)
+router.get("/:id/boards",validators.validate(validateId),authentication.loginRequired,getUserBoard)
 
 
 /**
@@ -58,13 +61,13 @@ router.get("/:id/boards",authentication.loginRequired,getUserBoard)
  * @access public
  * @requiredBody: name 
  */
-router.post("/",register)
+router.post("/",validators.validate(validateUser),register)
 
 /**
  * @route POST api/users
  * @description Login
  */
- router.post("/login",loginWithEmail)
+ router.post("/login",validators.validate(validateLogin),loginWithEmail)
 
 //export
 module.exports= router
