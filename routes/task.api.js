@@ -11,7 +11,7 @@ const router = express.Router();
  * @description Get task by id done
  * @access login required 
  */
-router.get("/:id",validators.validate(validateId),authentication.loginRequired, getTaskById);
+router.get("/:id",validators.validate(validateId.validateParam),authentication.loginRequired, getTaskById);
 
 //done
 /**
@@ -20,7 +20,7 @@ router.get("/:id",validators.validate(validateId),authentication.loginRequired, 
  * @access login required 
  * @query : name,status,createAt,updateAt 
  */
-router.get("/:id/board",validators.validate(validateId),authentication.loginRequired, getTaskByBoardId);
+router.get("/:id/board",validators.validate(validateId.validateParam),authentication.loginRequired, getTaskByBoardId);
 
 //done
 /**
@@ -46,7 +46,7 @@ router.put("/assignee",validators.validate(validateAddReference),authentication.
  * @description update status/description to a task done
  * @access login required
  */
-router.put("/:id",validators.validate([validateId,validateUpdateTask]),authentication.loginRequired,updateTask);
+router.put("/:id",validators.validate([validateId.validateParam,validateUpdateTask]),authentication.loginRequired,updateTask);
 
 //done
 //Delete
@@ -55,7 +55,7 @@ router.put("/:id",validators.validate([validateId,validateUpdateTask]),authentic
  * @description delete a task done
  * @access login required
  */
-router.delete("/:id",validators.validate(validateId),authentication.loginRequired, deleteTaskById);
+router.delete("/:id",validators.validate(validateId.validateParam),authentication.loginRequired, deleteTaskById);
 //export
 module.exports = router;
 //Update

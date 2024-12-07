@@ -29,7 +29,7 @@ router.get("/me",authentication.loginRequired,getCurrentUser)
  * @description Get user by id
  * @access public
  */
-router.get("/:id",validators.validate(validateId),authentication.loginRequired,getUserById)
+router.get("/:id",validators.validate(validateId.validateParam),authentication.loginRequired,getUserById)
 
 
 
@@ -38,14 +38,14 @@ router.get("/:id",validators.validate(validateId),authentication.loginRequired,g
  * @description Get all task by userId
  * @access login required
  */
-router.get("/:id/tasks",validators.validate(validateId),authentication.loginRequired,getUserTask)
+router.get("/:id/tasks",validators.validate(validateId.validateParam),authentication.loginRequired,getUserTask)
 
 /**
  * @route GET api/users/:id/boards
  * @description Get all boards by userId
  * @access required
  */
-router.get("/:id/boards",validators.validate(validateId),authentication.loginRequired,getUserBoard)
+router.get("/:id/boards",validators.validate(validateId.validateParam),authentication.loginRequired,getUserBoard)
 
 
 /**

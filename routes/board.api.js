@@ -11,7 +11,7 @@ const router = express.Router();
  * @description Get board detail
  * @access login required 
  */
-router.get("/:id",validators.validate(validateId),authentication.loginRequired,getBoardById);
+router.get("/:id",validators.validate(validateId.validateParam),authentication.loginRequired,getBoardById);
 
 /**
  * @route POST api/boards

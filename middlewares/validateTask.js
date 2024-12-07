@@ -1,4 +1,6 @@
 const { body } = require("express-validator");
+const mongoose = require('mongoose');
+
 const statusEnum = ["pending", "doing", "review", "done"];
 // Validation for task creation
 const validateTask = [
@@ -11,7 +13,7 @@ const validateTask = [
     .withMessage("name cannot be empty"),
   body("description")
     .exists()
-    .withMessage("description is required") // Description can be optional
+    .withMessage("description is required") 
     .isString()
     .withMessage("Description must be a valid string"),
   body("status")
@@ -25,7 +27,7 @@ const validateTask = [
     .exists()
     .withMessage("Board ID is required")
     .custom((value) => mongoose.Types.ObjectId.isValid(value))
-    .withMessage("_id must be a valid MongoDB ObjectId"),
+    .withMessage("boardId must be a valid MongoDB ObjectId"),
   body("cover")
     .optional({ nullable: true }) // Allows the field to be missing or null
     .isString()

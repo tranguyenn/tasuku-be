@@ -1,4 +1,5 @@
 const { body } = require("express-validator");
+const mongoose = require('mongoose');
 
 // Validation for user creation
 const validateBoard = [
