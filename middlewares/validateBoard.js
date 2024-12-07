@@ -38,8 +38,6 @@ const validateAddMemberToBoard = [
     .withMessage("Email field is required")
     .isString()
     .withMessage("Email must be a valid string")
-    .isEmpty()
-    .withMessage("Email cannot be empty")
     .isLength({ min: 6, max: 255 })
     .withMessage("Email field must be in length 6 to 255")
     .isEmail()

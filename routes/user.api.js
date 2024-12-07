@@ -1,5 +1,5 @@
 const express= require("express")
-const { getUserByEmail, getUserById, getUserTask, getUserBoard, createUser, register, loginWithEmail, getCurrentUser } = require("../controllers/user.controller")
+const { getUserByEmail, getUserById, getUserTask, getUserBoard, createUser, register, loginWithEmail, getCurrentUser, getUserByFilter } = require("../controllers/user.controller")
 const authentication = require("../middlewares/authentication")
 const validators = require("../middlewares/validators")
 const validateId = require("../middlewares/validateId")
@@ -14,6 +14,15 @@ const router = express.Router()
  * @allowedQueries: email
  */
 router.get("/search",validators.validate(validateGetByEmail),authentication.loginRequired,getUserByEmail)
+//done
+/**
+ * @route GET api/users/search
+ * @description Get a list of users
+ * @access private
+ * @allowedQueries: email
+ */
+router.get("/invite",authentication.loginRequired,getUserByFilter)
+
 //done
 /**
  * @route GET api/users/search

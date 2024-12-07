@@ -96,21 +96,23 @@ userController.getUserByFilter = async (req, res, next) => {
     try {
         const { name } = req.query;
         let filter = {};
-        if (name) filter = { name: { $regex: ".*" + name + ".*" } };
-        console.log(name)
-        const usersFound = await User.find(filter);
-        const resultUser={
-          _id:userFound._id,
-          name:userFound.name,
-          email:userFound.email,
-          avatar:userFound.avatar,
-          role:userFound.role
+        if (name) {
+          // Search for users whose name or email contains the input text (case insensitive)
+          filter = {
+            $or: [
+              { name: { $regex: ".*" + name + ".*", $options: "i" } },
+              { email: { $regex: ".*" + name + ".*", $options: "i" } },
+            ],
+          };
         }
+        const usersFound = await User.find(filter);
+        console.log(usersFound,"name")
+    
         sendResponse(
           res,
           200,
           true,
-          { data: resultUser },
+          { data: usersFound },
           null,
           "Find user by filter Success"
         );
