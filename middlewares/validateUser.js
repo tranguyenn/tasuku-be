@@ -11,14 +11,14 @@ const validateUser = [
     .notEmpty()
     .withMessage("Name cannot be empty"),
   body("avatar").custom((value) => {
-    if (value === undefined || value === null) return true; // Allow undefined or null
     if (
-      typeof value === "string" &&
-      /^https?:\/\/[^\s$.?#].[^\s]*$/i.test(value)
+      value === "" ||
+      (typeof value === "string" &&
+        /^https?:\/\/[^\s$.?#].[^\s]*$/i.test(value))
     ) {
-      return true; // Valid URL string
+      return true; // Valid if empty string or valid URL
     }
-    throw new Error("Avatar must be null or a valid URL string");
+    throw new Error("Avatar must be an empty string or a valid URL string");
   }),
   body("email")
     .exists()
